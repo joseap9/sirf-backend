@@ -77,4 +77,27 @@ const pasarAsistencia = (req, res) => {
     });
 }
 
-module.exports = { getProfesor, getAsignaturas, pasarAsistencia}
+const asistenciaPorFecha = (req, res) => {
+    console.log(req.body)
+
+    const { fecha } = req.body;
+
+    req.getConnection( (err, conn)  => {
+        conn.query('SELECT count(*) asistentes FROM asistencia join asignatura on asistencia.id_asistencia = asignatura.id_asignatura where fecha_asignatura = ? and estado = 1 ', [ fecha ] ,(err, asis) => {
+            if (err) {
+                return res.status(500).json(
+                    {
+                        ok: false,
+                        msg: err
+                    }
+                );
+            }
+            res.json({
+                ok: true,
+                asis
+            })
+        });
+    });
+}
+
+module.exports = { getProfesor, getAsignaturas, pasarAsistencia, asistenciaPorFecha}
