@@ -100,4 +100,42 @@ const asistenciaPorFecha = (req, res) => {
     });
 }
 
-module.exports = { getProfesor, getAsignaturas, pasarAsistencia, asistenciaPorFecha}
+const agregarAlumno = (req, res) => {
+
+    console.log(req.body.alumno.fecha)
+
+    const { alumno } = req.body
+    
+    req.getConnection( (error, conn)  => {
+
+        if (error) {
+            return res.status(500).json(
+                {
+                    ok: false,
+                    msg: err
+                }
+            );
+        }
+
+        conn.query('INSERT INTO alumno (nombre, apellido, rut, fecha_nacimiento) VALUES (?,?,?,?)', 
+        [alumno.nombre, alumno.apellido, alumno.rut, alumno.fecha], (err, alumno) => {
+            if (err) {
+                return res.status(500).json(
+                    {
+                        ok: false,
+                        msg: err
+                    }
+                );
+            }
+
+            res.json({
+                ok: true,
+                msg: alumno
+            })
+
+            
+        });
+        
+    });
+}
+module.exports = { getProfesor, getAsignaturas, pasarAsistencia, asistenciaPorFecha, agregarAlumno}
