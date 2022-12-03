@@ -34,6 +34,7 @@ app.use( express.json() );
 
 // Rutas
 /* app.use('/api/auth', require('./routes/auth') ); */
+
 app.use('/api/events', require('./routes/eventosProfesor') );
 
 app.listen( process.env.PORT , () => { 

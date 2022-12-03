@@ -83,7 +83,9 @@ const asistenciaPorFecha = (req, res) => {
     const { fecha } = req.body;
 
     req.getConnection( (err, conn)  => {
-        conn.query('SELECT count(*) asistentes FROM asistencia join asignatura on asistencia.id_asistencia = asignatura.id_asignatura where fecha_asignatura = ? and estado = 1 ', [ fecha ] ,(err, asis) => {
+        conn.query('SELECT count(*) asistentes FROM asistencia join asignatura on asistencia.id_asistencia = asignatura.id_asignatura where fecha_asignatura = ? and estado = 1 '
+        
+        , [ fecha ] ,(err, asis) => {
             if (err) {
                 return res.status(500).json(
                     {

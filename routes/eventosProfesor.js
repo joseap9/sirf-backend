@@ -3,10 +3,10 @@ const { getProfesor, getAsignaturas, pasarAsistencia, asistenciaPorFecha, agrega
 const router = Router();
 
 //obtener datos de profesor
-router.get('/', getProfesor );
+router.get('/profesores', getProfesor );
 
 //obtener asignaruras de profesor
-router.post('/asignaturas', getAsignaturas);
+router.post('/asignaturas', getAsignaturas)
 
 //pasar asistencia ( envia la lista de asistentes a la base de datos )
 router.post('/asistencia', pasarAsistencia);
