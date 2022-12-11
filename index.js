@@ -13,7 +13,7 @@ const app = express();
 //dbConnection();
 
 //Base de datos MySql
-app.use( myconnection( mysql,{
+/* app.use( myconnection( mysql,{
 
             host: 'localhost',
             user: 'root',
@@ -23,7 +23,7 @@ app.use( myconnection( mysql,{
 
         } 
     )
-);
+); */
 
 
 //Directorio publico
