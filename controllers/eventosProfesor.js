@@ -2,8 +2,9 @@ const { response } = require('express');
 
 
 const getProfesor = (req, res = response) => {
+    const { rut,password } = req.body
     req.getConnection( (err, conn)  => {
-        conn.query('SELECT * FROM profesor', (err, profesor) => {
+        conn.query('SELECT * FROM profesor where rut = ? and password = ?',[rut,password] ,(err, profesor) => {
             if (err) {
                 return res.status(500).json(
                     {
@@ -22,11 +23,11 @@ const getProfesor = (req, res = response) => {
 
 const getAsignaturas = (req, res) => {
     console.log(req.body)
-    const { id_profesor } = req.body
+    const { rut } = req.body
     
     req.getConnection( (err, conn)  => {
 
-        conn.query('SELECT * FROM asignatura where id_profesor = ?', [id_profesor], (err, asig) => {
+        conn.query('SELECT asignatura.nombre nombre, id_asignatura, id_profesor, fecha_asignatura, hora_inicio, hora_termino  FROM asignatura JOIN profesor USING (id_profesor) WHERE rut = ?', [rut], (err, asig) => {
             if (err) {
                 return res.status(500).json(
                     {
@@ -80,12 +81,12 @@ const pasarAsistencia = (req, res) => {
 const asistenciaPorFecha = (req, res) => {
     console.log(req.body)
 
-    const { fecha } = req.body;
+    const { fecha,nombre_asignatura } = req.body;
 
     req.getConnection( (err, conn)  => {
-        conn.query('SELECT count(*) asistentes FROM asistencia join asignatura on asistencia.id_asistencia = asignatura.id_asignatura where fecha_asignatura = ? and estado = 1 '
+        conn.query('SELECT count(*) asistentes, total_asignatura FROM asistencia JOIN asignatura USING(id_asignatura) WHERE estado = 1 and fecha_asignatura = ? and nombre = ? GROUP BY total_asignatura '
         
-        , [ fecha ] ,(err, asis) => {
+        , [ fecha,nombre_asignatura ] ,(err, asis) => {
             if (err) {
                 return res.status(500).json(
                     {
