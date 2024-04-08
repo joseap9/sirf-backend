@@ -1,5 +1,4 @@
 const express = require('express');
-//const { dbConnection} = require('./database/config');
 const mysql = require('mysql'); 
 const myconnection = require('express-myconnection');
 const cors = require('cors');
@@ -11,9 +10,6 @@ const app = express();
 
 
 app.use(cors());
-
-//Base de datos datos Mongo
-//dbConnection();
 
 //Base de datos MySql
 app.use( myconnection( mysql,{
